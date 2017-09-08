@@ -19,9 +19,6 @@
     ],
     "type": "library",
     "require": {},
-    "require-dev": {
-
-    },
     "autoload": {
         "psr-4": {
             "firetest\\": "src/"
