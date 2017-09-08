@@ -22,7 +22,7 @@ FireTest can be configured so that it can be ran from either directly the comman
 
     php vendor/ua1-labs/firetest/scripts/runner.php [directory] [fireExt]
 
-The `runner.php` file is a script meant to bootstrap your test suite together to make it easier to configure your test runner. It accepts two parameters. `[directory]` is the directory you would like to scan to search for your test files. [fileExt] is the file extension FireTest should look for when it is scanning for tests.
+The `runner.php` file is a script meant to bootstrap your test suite together to make it easier to configure your test runner. It accepts two parameters. `[directory]` is the directory you would like to scan to search for your test files. `[fileExt]` is the file extension FireTest should look for when it is scanning for tests.
 
 Example:
 
