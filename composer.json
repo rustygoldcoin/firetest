@@ -1,0 +1,30 @@
+{
+    "name": "ua1-labs/firetest",
+    "description": "A Simple PHP Testing Framework Created for the FireStudio Project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Joshua L Johnson",
+            "email": "josh@ua1.us"
+        }
+    ],
+    "keywords": [
+        "testing",
+        "unit",
+        "unittest",
+        "test",
+        "firestudio",
+        "firedb",
+        "firetest"
+    ],
+    "type": "library",
+    "require": {},
+    "require-dev": {
+
+    },
+    "autoload": {
+        "psr-4": {
+            "firetest\\": "src/"
+        }
+    }
+}
