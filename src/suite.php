@@ -10,18 +10,47 @@ use RegexIterator;
 
 class suite {
 
+    /**
+     * The directory that the test suite should scan for tests.
+     * @var string
+     */
     private $_dir;
 
+    /**
+     * The file extension the test suite should use to deferentiate tests.
+     * @var string
+     */
     private $_fileExt;
 
+    /**
+     * An array of classes identified to be ran with this suite.
+     * @var array
+     */
     private $_testClasses;
 
+    /**
+     * Total of all tests that passed for the suite.
+     * @var integer
+     */
     private $_totalPassCount;
 
+    /**
+     * Total of all tests that have failed for the suite.
+     * @var integer
+     */
     private $_totalFailCount;
 
+    /**
+     * An array of the tests that failed.
+     * @var array
+     */
     private $_allFailedTests;
 
+    /**
+     * The constructor
+     * @param string $dir
+     * @param string $fileExt
+     */
     public function __construct($dir, $fileExt = '.test.php') {
         $this->_dir = $dir;
         $this->_fileExt = $fileExt;
@@ -32,6 +61,10 @@ class suite {
         $this->_loadTestFiles();
     }
 
+    /**
+     * The run logic used to run the suite of testcases and tests.
+     * @return void
+     */
     public function run() {
         $this->log('Starting test suite located at "' . $this->_dir . '".');
         foreach($this->_testClasses as $testClass) {
@@ -44,7 +77,6 @@ class suite {
                 $testClass->{$testMethod}();
 
                 $results = $testClass->getResults();
-                $testClass->resetResults();
                 $fails = $results['failed'];
                 $failedCount = count($fails);
                 $this->_totalFailCount += $failedCount;
@@ -101,6 +133,10 @@ class suite {
 
     }
 
+    /**
+     * Loads tests files from the directory and fileExt configurations.
+     * @return void
+     */
     private function _loadTestFiles() {
         $rDir = new RecursiveDirectoryIterator($this->_dir);
         $iDir = new RecursiveIteratorIterator($rDir);
@@ -120,6 +156,11 @@ class suite {
         }
     }
 
+    /**
+     * Logs out test that you pass into it.
+     * @param  string $text
+     * @return void
+     */
     public static function log($text) {
         if (php_sapi_name() == "cli") {
             echo 'FireTest Log: ' . $text . "\n";
