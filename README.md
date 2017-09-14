@@ -44,13 +44,13 @@ Once you have it configured all you need to do is run the test script using Comp
 
 ### Creating Your First Test
 
-To create your first test, you will need to start out by creating your test file. You must name your file and the class name of your test the exact same. For example, if you name your test file `TestSuite.test.php` then you must name your test class `TestSuite`. You class will need to extend class `firetest\testcase`.
+To create your first test, you will need to start out by creating your test file. You must name your file and the class name of your test the exact same. For example, if you name your test file `MyTestCase.test.php` then you must name your test class `MyTestCase`. You class will need to extend class `Fire\Test\TestCase`.
 
 Example:
 
-    use firetest\testcase;
+    use Fire\Test\TestCase;
 
-    class TestSuite extends testcase {
+    class MyTestCase extends TestCase {
         //my test suite logic
     }
 
@@ -64,7 +64,7 @@ Example:
 
 ### Asserting
 
-At some point, you will most likely want to assert something with your test method. Because you extended the `firetest\testcase` class, you have a method called `firetest\testcase::assert($trueStatement, $shouldStatement)`. The assert method evaluates the `$trueStatement` parameter to determine a pass or fail. `$trueStatement` must evaluate to a `true` boolean value. It it does not, the assert will fail. The `$shouldStatement` is used to provide feedback to what you are asserting. Think of this statement as a question "This assert should...", fill in the blank with the rest.
+At some point, you will most likely want to assert something with your test method. Because you extended the `Fire\Test\TestCase` class, you have a method called `Fire\Test\TestCase::assert($trueStatement, $shouldStatement)`. The assert method evaluates the `$trueStatement` parameter to determine a pass or fail. `$trueStatement` must evaluate to a `true` boolean value. It it does not, the assert will fail. The `$shouldStatement` is used to provide feedback to what you are asserting. Think of this statement as a question "This assert should...", fill in the blank with the rest.
 
 Example:
 
@@ -100,7 +100,7 @@ When setting up a test case, you have several methods you can use to help you au
     public function tearDown()
 
     /**
-     * Method used to determine if a test passes or failes.
+     * Method used to determine if a test passes or fails.
      * @param  boolean $trueStatement The statement you want to test
      * @param  string $shouldStatement The description of the assert
      * @return void
@@ -109,4 +109,4 @@ When setting up a test case, you have several methods you can use to help you au
 
 ### FireTest Logging
 
-You have the ability to log out information as your tests are running. `firetest\suite::log()` is a static method you can use to log out information as your test is running.
+You have the ability to log out information as your tests are running. `Fire\Test\Suite::log()` is a static method you can use to log out information as your test is running.

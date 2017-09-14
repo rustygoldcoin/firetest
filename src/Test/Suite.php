@@ -1,14 +1,14 @@
 <?php
 
-namespace firetest;
+namespace Fire\Test;
 
-use firetest\FireTestException;
-use firetest\testcase;
+use Fire\TestException;
+use Fire\Test\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 
-class suite {
+class Suite {
 
     /**
      * The directory that the test suite should scan for tests.
@@ -146,11 +146,11 @@ class suite {
             require_once $require;
             $className = str_replace($this->_fileExt, '', basename($require));
             if (!class_exists($className)) {
-                throw new FireTestException('Test class "' . $className . '" cannot be found.');
+                throw new TestException('Test class "' . $className . '" cannot be found.');
             }
             $testInstance = new $className();
-            if (!($testInstance instanceof testcase)) {
-                throw new FireTestException('Test class "' . $className . '" must extend firetest\testcase.');
+            if (!($testInstance instanceof TestCase)) {
+                throw new TestException('Test class "' . $className . '" must extend Fire\Test\TestCase.');
             }
             $this->_testClasses[] = new $className();
         }

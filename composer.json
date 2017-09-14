@@ -15,13 +15,14 @@
         "test",
         "firestudio",
         "firedb",
-        "firetest"
+        "firetest",
+        "fire"
     ],
     "type": "library",
     "require": {},
     "autoload": {
         "psr-4": {
-            "firetest\\": "src/"
+            "Fire\\": "src/"
         }
     }
 }

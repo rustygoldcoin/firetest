@@ -1,8 +1,8 @@
 <?php
 
-namespace firetest;
+namespace Fire\Test;
 
-abstract class testcase {
+abstract class TestCase {
 
     /**
      * The array of tests that have passed.
