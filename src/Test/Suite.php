@@ -8,7 +8,8 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 
-class Suite {
+class Suite
+{
 
     /**
      * The directory that the test suite should scan for tests.
@@ -51,7 +52,8 @@ class Suite {
      * @param string $dir
      * @param string $fileExt
      */
-    public function __construct($dir, $fileExt = '.test.php') {
+    public function __construct($dir, $fileExt = '.test.php')
+    {
         $this->_dir = $dir;
         $this->_fileExt = $fileExt;
         $this->_testClasses = [];
@@ -65,7 +67,8 @@ class Suite {
      * The run logic used to run the suite of testcases and tests.
      * @return void
      */
-    public function run() {
+    public function run()
+    {
         $this->log('Starting test suite located at "' . $this->_dir . '".');
         foreach($this->_testClasses as $testClass) {
             $testClass->setUp();
@@ -130,14 +133,14 @@ class Suite {
         if ($this->_totalFailCount > 0) {
             exit(1);
         }
-
     }
 
     /**
      * Loads tests files from the directory and fileExt configurations.
      * @return void
      */
-    private function _loadTestFiles() {
+    private function _loadTestFiles()
+    {
         $rDir = new RecursiveDirectoryIterator($this->_dir);
         $iDir = new RecursiveIteratorIterator($rDir);
         $iFiles = new RegexIterator($iDir, '/^.+\\' . $this->_fileExt . '$/', RegexIterator::GET_MATCH);
@@ -161,7 +164,8 @@ class Suite {
      * @param  string $text
      * @return void
      */
-    public static function log($text) {
+    public static function log($text)
+    {
         if (php_sapi_name() == "cli") {
             echo 'FireTest: ' . $text . "\n";
         } else {
