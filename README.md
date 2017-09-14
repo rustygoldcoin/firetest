@@ -50,7 +50,8 @@ Example:
 
     use Fire\Test\TestCase;
 
-    class MyTestCase extends TestCase {
+    class MyTestCase extends TestCase
+    {
         //my test suite logic
     }
 
@@ -58,7 +59,8 @@ Once you test suite is loaded and initialized, the FireTest will iterate through
 
 Example:
 
-    public function testMyMethod() {
+    public function testMyMethod()
+    {
         //my test logic
     }
 
