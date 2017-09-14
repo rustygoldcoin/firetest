@@ -163,7 +163,7 @@ class Suite {
      */
     public static function log($text) {
         if (php_sapi_name() == "cli") {
-            echo 'FireTest Log: ' . $text . "\n";
+            echo 'FireTest: ' . $text . "\n";
         } else {
             // Not in cli-mode
         }
