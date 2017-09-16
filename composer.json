@@ -22,7 +22,7 @@
     "require": {},
     "autoload": {
         "psr-4": {
-            "Fire\\": "src/"
+            "Fire\\": "Fire/"
         }
     }
 }
