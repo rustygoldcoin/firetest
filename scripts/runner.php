@@ -9,5 +9,6 @@ if (!$dir) {
     throw new Fire\TestException($exceptionDesc);
 }
 
-$suite = new Fire\Test\Suite(__DIR__ . '/../../../../' . $dir, $fileExt);
+$dir = __DIR__ . '/../../../../' . $dir;
+$suite = new Fire\Test\Suite($dir, $fileExt);
 $suite->run();
