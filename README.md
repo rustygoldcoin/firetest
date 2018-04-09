@@ -44,7 +44,7 @@ Once you have it configured all you need to do is run the test script using Comp
 
 ### Creating Your First Test
 
-To create your first test, you will need to start out by creating your test file. You must name your file and the class name of your test the exact same. For example, if you name your test file `MyTestCase.test.php` then you must name your test class `MyTestCase`. You class will need to extend class `Fire\Test\TestCase`.
+To create your first test, you will need to start out by creating your test file. Your test file will consist of a class you create which will extend the class `Fire\Test\TestCase`.
 
 Example:
 
@@ -66,12 +66,13 @@ Example:
 
 ### Asserting
 
-At some point, you will most likely want to assert something with your test method. Because you extended the `Fire\Test\TestCase` class, you have a method called `Fire\Test\TestCase::assert($trueStatement, $shouldStatement)`. The assert method evaluates the `$trueStatement` parameter to determine a pass or fail. `$trueStatement` must evaluate to a `true` boolean value. It it does not, the assert will fail. The `$shouldStatement` is used to provide feedback to what you are asserting. Think of this statement as a question "This assert should...", fill in the blank with the rest.
+At some point, you will most likely want to assert something with your test method. Because you extended the `Fire\Test\TestCase` class, you have access to two methods called `Fire\Test\TestCase::should($statement)` and `Fire\Test\TestCase::assert($true)`. The `should` method provides you a way to tell us what your assert is going to do. Think of it like "this test should...". The `assert` method evaluates the `$true` parameter to determine a pass or fail. `$true` must evaluate to a `true` boolean value.
 
 Example:
 
-    $should = 'As we evaluate true, this test should always pass.';
-    $this->assert(true, $should);
+    $this
+        ->should('Should be set to true.')
+        ->assert(true);
 
 ### TestCase API
 
@@ -102,12 +103,18 @@ When setting up a test case, you have several methods you can use to help you au
     public function tearDown()
 
     /**
-     * Method used to determine if a test passes or fails.
-     * @param  boolean $trueStatement The statement you want to test
-     * @param  string $shouldStatement The description of the assert
-     * @return void
+     * Method used to set the current test's should statement.
+     * @param  string $shouldStatement The statement you want to test against
+     * @return \Fire\Test\TestCase
      */
-    protected function assert($trueStatement, $shouldStatement)
+    protected function should($statement)
+
+    /**
+     * Method used to determine if a test passes or failes.
+     * @param  boolean $trueStatement The statement you want to test
+     * @return Fire\Test\TestCase
+     */
+    protected function assert($true)
 
 ### FireTest Logging
 

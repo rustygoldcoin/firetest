@@ -18,6 +18,15 @@ abstract class TestCase
     private $_failed;
 
     /**
+     * When runninng tests, this variable will contain the
+     * current test's should statement. The user will state
+     * what their current test should do using the ::should()
+     * method.
+     * @var string
+     */
+    private $_should;
+
+    /**
      * The Constructor
      * @return void
      */
@@ -54,8 +63,8 @@ abstract class TestCase
     }
 
     /**
-     * A
-     * @return A method that is invoked when the test case is finish running all test methods.
+     * A method that is invoked when the test case is finish running all test methods.
+     * @return void
      */
     public function tearDown()
     {
@@ -86,18 +95,29 @@ abstract class TestCase
     }
 
     /**
+     * Method used to set the current test's should statement.
+     * @param  string $shouldStatement The statement you want to test against
+     * @return \Fire\Test\TestCase
+     */
+    protected function should($statement)
+    {
+        $this->_should = $statement;
+        return $this;
+    }
+
+    /**
      * Method used to determine if a test passes or failes.
      * @param  boolean $trueStatement The statement you want to test
-     * @param  string $shouldStatement The description of the assert
-     * @return void
+     * @return Fire\Test\TestCase
      */
-    protected function assert($trueStatement, $shouldStatement)
+    protected function assert($true)
     {
-        if ($trueStatement === true) {
-            $this->_passed[] = $shouldStatement;
+        if ($true === true) {
+            $this->_passed[] = $this->_should;
         } else {
-            $this->_failed[] = $shouldStatement;
+            $this->_failed[] = $this->_should;
         }
+        return $this;
     }
 
     /**
@@ -106,6 +126,7 @@ abstract class TestCase
      */
     public function _resetResults()
     {
+        $this->_should = '';
         $this->_passed = [];
         $this->_failed = [];
     }

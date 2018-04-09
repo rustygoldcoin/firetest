@@ -69,7 +69,11 @@ class Suite
      */
     public function run()
     {
-        $this->log('Starting test suite located at "' . $this->_dir . '".');
+        $this->log(
+            'Starting test suite located at "' . realpath($this->_dir) . '"'
+                . '. Running all test files with extension "'
+                . $this->_fileExt . '".'
+        );
         foreach($this->_testClasses as $testClass) {
             $testClass->setUp();
             $testMethods = $testClass->getTestMethods();
@@ -147,7 +151,8 @@ class Suite
         foreach($iFiles as $file) {
             $require = $file[0];
             require_once $require;
-            $className = str_replace($this->_fileExt, '', basename($require));
+            $declaredClasses = get_declared_classes();
+            $className = end($declaredClasses);
             if (!class_exists($className)) {
                 throw new TestException('Test class "' . $className . '" cannot be found.');
             }
