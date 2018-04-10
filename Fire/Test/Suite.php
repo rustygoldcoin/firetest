@@ -64,6 +64,9 @@ class Suite
         $this->_totalPassCount = 0;
         $this->_totalFailCount = 0;
         $this->_allFailedTests = [];
+
+        $this->log('[STARTING] Test suite is located at "' . realpath($this->_dir) . '"');
+        $this->log('[STARTING] Finding all files with the extension "' . $this->_fileExt . '"');
         $this->_loadTestFiles();
     }
 
@@ -73,11 +76,6 @@ class Suite
      */
     public function run()
     {
-        $this->log(
-            'Starting test suite located at "' . realpath($this->_dir) . '"'
-                . '. Running all test files with extension "'
-                . $this->_fileExt . '".'
-        );
         foreach($this->_testClasses as $testClass) {
             $testClass->setUp();
             $testMethods = $testClass->getTestMethods();
@@ -154,6 +152,7 @@ class Suite
         $iFiles = new RegexIterator($iDir, '/^.+\\' . $this->_fileExt . '$/', RegexIterator::GET_MATCH);
         foreach($iFiles as $file) {
             $require = $file[0];
+            $this->log('[LOADING] Test file "' . realpath($require) . '"');
             require_once $require;
             $declaredClasses = get_declared_classes();
             $className = end($declaredClasses);

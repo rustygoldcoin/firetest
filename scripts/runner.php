@@ -1,11 +1,12 @@
 <?php
 require_once __DIR__ . '/../../../autoload.php';
 
-$dir = isset($argv[1]) ? $argv[1] : false;
-$fileExt = isset($argv[2]) ? $argv[2] : '.test.php';
+$options = getopt('', ['dir:', 'ext:']);
+$dir = isset($options['dir']) ? $options['dir'] : false;
+$fileExt = isset($options['ext']) ? $options['ext'] : '.test.php';
 if (!$dir) {
     $exceptionDesc = 'Please include a directory parameter. Ex: php vendor/ua1-labs/firetest/src/runner.php'
-        . ' [test_directory] [test_file_ext]';
+        . ' --dir=[test_directory] --ext[test_file_ext]';
     throw new Fire\TestException($exceptionDesc);
 }
 

@@ -35,7 +35,7 @@ In the example above, the test suite will search through your `src` directory fo
 To run FireTest as a composer test script all you need to do is configure the run-script to run the `runner.php` script and point it to the directory you want and the file extension you want it to find. You will find run-script configurations in your `composer.json` file located at the configuration `scripts`.
 
     "scripts": {
-        "test": "php vendor/ua1-labs/firetest/scripts/runner.php src .test.php"
+        "test": "php vendor/ua1-labs/firetest/scripts/runner.php --dir=src --ext=.test.php"
     }
 
 Once you have it configured all you need to do is run the test script using Composer.
