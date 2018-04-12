@@ -153,17 +153,23 @@ class Suite
         foreach($iFiles as $file) {
             $require = $file[0];
             $this->log('[LOADING] Test file "' . realpath($require) . '"');
+            $declaredBefore = get_declared_classes();
             require_once $require;
-            $declaredClasses = get_declared_classes();
-            $className = end($declaredClasses);
-            if (!class_exists($className)) {
-                throw new TestException('Test class "' . $className . '" cannot be found.');
+            $declaredAfter = get_declared_classes();
+            $loadedClasses = array_diff($declaredAfter, $declaredBefore);
+            foreach($loadedClasses as $className) {
+                if (is_subclass_of($className, 'Fire\Test\TestCase')) {
+                    if (!class_exists($className)) {
+                        throw new TestException('Test class "' . $className . '" cannot be found.');
+                    }
+                    $testInstance = new $className();
+                    if (!($testInstance instanceof TestCase)) {
+                        throw new TestException('Test class "' . $className . '" must extend Fire\Test\TestCase.');
+                    }
+                    $this->log('[LOADING] Test class "' . $className . '"');
+                    $this->_testClasses[] = new $className();
+                }
             }
-            $testInstance = new $className();
-            if (!($testInstance instanceof TestCase)) {
-                throw new TestException('Test class "' . $className . '" must extend Fire\Test\TestCase.');
-            }
-            $this->_testClasses[] = new $className();
         }
     }
 
