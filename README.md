@@ -9,7 +9,7 @@ Install via Composer
 1. Add `ua1-labs\firetest:dev-master` to your `require-dev` configuration in your `composer.json` file.
 
         "require-dev": {
-            "ua1-labs": "dev-master"
+            "ua1-labs/firetest": "dev-master"
         }
 
 2. Run `composer install`
