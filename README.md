@@ -1,6 +1,6 @@
 # FireTest
 
-A Simple PHP Testing Framework Created for the [FireStudio](https://github.com/ua1-labs/firestudio) Project
+A Simple PHP Testing Framework
 
 ### Installation
 
