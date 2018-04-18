@@ -2,9 +2,9 @@
 
 A Lightweight PHP Testing Framework
 
-### API Docs
+### FireTest API Documentation
 
-[FireTest API](https://ua1.us/open-source/firetest/api/);
+[FireTest API Documentation](https://ua1.us/open-source/firetest/api/)
 
 ### Installation
 
