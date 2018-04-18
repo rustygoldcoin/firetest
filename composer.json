@@ -19,7 +19,13 @@
         "fire"
     ],
     "type": "library",
+    "scripts": {
+        "docs": "php vendor/bin/phpdoc.php -d ./Fire -t ./docs/api"
+    },
     "require": {},
+    "require-dev": {
+        "phpdocumentor/phpdocumentor": "2.*"
+    },
     "autoload": {
         "psr-4": {
             "Fire\\": "Fire/"
