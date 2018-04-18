@@ -1,6 +1,6 @@
 {
     "name": "ua1-labs/firetest",
-    "description": "A Simple PHP Testing Framework Created for the FireStudio Project",
+    "description": "A Lightweight PHP Testing Framework",
     "license": "MIT",
     "authors": [
         {

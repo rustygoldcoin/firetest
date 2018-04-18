@@ -1,6 +1,6 @@
 # FireTest
 
-A Simple PHP Testing Framework
+A Lightweight PHP Testing Framework
 
 ### Installation
 
