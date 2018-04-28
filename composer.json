@@ -20,7 +20,7 @@
     ],
     "type": "library",
     "scripts": {
-        "docs": "php vendor/bin/phpdoc.php -d ./Fire -t ./docs/api"
+        "docs": "vendor/bin/phpdoc -d ./Fire -t ./docs/api"
     },
     "require": {},
     "require-dev": {
