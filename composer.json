@@ -13,11 +13,15 @@
         "testing",
         "unit",
         "unittest",
+        "unit test"
         "test",
         "firestudio",
         "firedb",
         "firetest",
-        "fire"
+        "fire",
+        "ua1labs",
+        "ua1",
+        "ua1-labs"
     ],
     "type": "library",
     "scripts": {
