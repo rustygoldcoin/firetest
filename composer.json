@@ -1,6 +1,6 @@
 {
     "name": "ua1-labs/firetest",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "A Lightweight PHP Testing Framework",
     "license": "MIT",
     "authors": [
@@ -13,7 +13,7 @@
         "testing",
         "unit",
         "unittest",
-        "unit test"
+        "unit test",
         "test",
         "firestudio",
         "firedb",
