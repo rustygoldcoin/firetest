@@ -25,6 +25,7 @@
     ],
     "type": "library",
     "scripts": {
+        "build": "composer run docs",
         "docs": "vendor/bin/phpdoc -d ./Fire -t ./docs/api"
     },
     "require": {},
