@@ -2,10 +2,6 @@
 
 A Lightweight PHP Testing Framework
 
-### FireTest API Documentation
-
-[FireTest API Documentation](https://ua1.us/open-source/firetest/api/)
-
 ### Installation
 
 Install via Composer
