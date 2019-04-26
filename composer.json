@@ -24,7 +24,9 @@
         "ua1-labs"
     ],
     "type": "library",
-    "scripts": {},
+    "scripts": {
+        "test": "php scripts/runner.php"
+    },
     "require": {},
     "autoload": {
         "psr-4": {

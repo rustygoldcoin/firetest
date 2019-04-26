@@ -7,8 +7,7 @@
  * / /_/ / ___ |/ /  / /___/ /_/ / /_/ (__  )
  * `____/_/  |_/_/  /_____/`__,_/_.___/____/
  *
- * @package FireStudio
- * @subpackage FireTest
+ * @package FireTest
  * @author UA1 Labs Developers https://ua1.us
  * @copyright Copyright (c) UA1 Labs
  */

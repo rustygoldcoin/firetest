@@ -12,15 +12,14 @@
  * @copyright Copyright (c) UA1 Labs
  */
 
-
-namespace Fire;
-
-use Exception;
+namespace Fire\Test;
 
 /**
- * Exception thrown from the FireTest library.
+ * This class is responsible for providing the ability to mock
+ * dependencies within tests.
  */
-class TestException extends Exception
+class Mock
 {
+
 
 }

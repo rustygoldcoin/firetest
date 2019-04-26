@@ -7,23 +7,23 @@
  * / /_/ / ___ |/ /  / /___/ /_/ / /_/ (__  )
  * `____/_/  |_/_/  /_____/`__,_/_.___/____/
  *
- * @package FireStudio
- * @subpackage FireTest
+ * @package FireTest
  * @author UA1 Labs Developers https://ua1.us
  * @copyright Copyright (c) UA1 Labs
  */
 
-require_once __DIR__ . '/../../../autoload.php';
-
-$options = getopt('', ['dir:', 'ext:']);
-$dir = isset($options['dir']) ? $options['dir'] : false;
-$fileExt = isset($options['ext']) ? $options['ext'] : '.test.php';
-if (!$dir) {
-    $exceptionDesc = 'Please include a directory parameter. Ex: php vendor/ua1-labs/firetest/src/runner.php'
-        . ' --dir=[test_directory] --ext[test_file_ext]';
-    throw new Fire\TestException($exceptionDesc);
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+    $baseDir = __DIR__ . '/../';
+} else {
+    require_once __DIR__ . '/../../../autoload.php';
+    $baseDir = __DIR__ . '/../../../../';
 }
 
-$dir = __DIR__ . '/../../../../' . $dir;
+$options = getopt('', ['dir:', 'ext:']);
+$dir = isset($options['dir']) ? $options['dir'] : '';
+$fileExt = isset($options['ext']) ? $options['ext'] : '.test.php';
+
+$dir = $baseDir . $dir;
 $suite = new Fire\Test\Suite($dir, $fileExt);
 $suite->run();
