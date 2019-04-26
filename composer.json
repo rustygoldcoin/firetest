@@ -24,14 +24,8 @@
         "ua1-labs"
     ],
     "type": "library",
-    "scripts": {
-        "build": "composer run docs",
-        "docs": "vendor/bin/phpdoc -d ./Fire -t ./docs/api"
-    },
+    "scripts": {},
     "require": {},
-    "require-dev": {
-        "phpdocumentor/phpdocumentor": "2.*"
-    },
     "autoload": {
         "psr-4": {
             "Fire\\": "Fire/"

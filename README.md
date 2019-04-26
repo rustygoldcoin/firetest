@@ -2,23 +2,7 @@
 
 A Lightweight PHP Testing Framework
 
-### FireTest API Documentation
-
-[FireTest API Documentation](https://ua1.us/open-source/firetest/api/)
-
-### Installation
-
-Install via Composer
-
-1. Add `ua1-labs\firetest:dev-master` to your `require-dev` configuration in your `composer.json` file.
-
-        "require-dev": {
-            "ua1-labs/firetest": "dev-master"
-        }
-
-2. Run `composer install`
-
-### Configure The Test Runner
+## Configure The Test Runner
 
 FireTest can be configured so that it can be ran from either directly the command line or from your composer run-scripts.
 
@@ -46,7 +30,7 @@ Once you have it configured all you need to do is run the test script using Comp
 
     composer test
 
-### Creating Your First Test
+## Creating Your First Test
 
 To create your first test, you will need to start out by creating your test file. Your test file will consist of a class you create which will extend the class `Fire\Test\TestCase`.
 
@@ -68,7 +52,7 @@ Example:
         //my test logic
     }
 
-### Asserting
+## Asserting
 
 At some point, you will most likely want to assert something with your test method. Because you extended the `Fire\Test\TestCase` class, you have access to two methods called `Fire\Test\TestCase::should($statement)` and `Fire\Test\TestCase::assert($true)`. The `should` method provides you a way to tell us what your assert is going to do. Think of it like "this test should...". The `assert` method evaluates the `$true` parameter to determine a pass or fail. `$true` must evaluate to a `true` boolean value.
 
@@ -78,7 +62,7 @@ Example:
         ->should('Should be set to true.')
         ->assert(true);
 
-### TestCase API
+## TestCase API
 
 When setting up a test case, you have several methods you can use to help you automate your tests.
 
@@ -120,6 +104,6 @@ When setting up a test case, you have several methods you can use to help you au
      */
     protected function assert($true)
 
-### FireTest Logging
+## FireTest Logging
 
 You have the ability to log out information as your tests are running. `Fire\Test\Suite::log()` is a static method you can use to log out information as your test is running.
