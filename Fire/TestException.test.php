@@ -1,5 +1,4 @@
 <?php
-
 /**
  *    __  _____   ___   __          __
  *   / / / /   | <  /  / /   ____ _/ /_  _____
@@ -14,12 +13,12 @@
 
 namespace Fire;
 
-use Exception;
+use Fire\Test\TestCase;
 
-/**
- * Exception thrown from the FireTest library.
- */
-class TestException extends Exception
+class TestExceptionTest extends TestCase
 {
-
+    public function testIFail() {
+        $this->should('Fail when assert is returned false');
+        $this->assert(false);
+    }
 }

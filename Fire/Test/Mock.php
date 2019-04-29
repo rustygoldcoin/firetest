@@ -14,6 +14,8 @@
 
 namespace Fire\Test;
 
+use \ReflectionClass;
+
 /**
  * This class is responsible for providing the ability to mock
  * dependencies within tests.
@@ -21,5 +23,26 @@ namespace Fire\Test;
 class Mock
 {
 
+    private $_reflectionClass;
+
+    private function __construct($className)
+    {
+        $this->_reflectionClass = new ReflectionClass($className);
+    }
+
+    public static function get($className)
+    {
+        return new Mock($className);
+    }
+
+    public function mockVariable()
+    {
+
+    }
+
+    public function mockMethod()
+    {
+
+    }
 
 }
