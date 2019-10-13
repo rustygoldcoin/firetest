@@ -23,24 +23,26 @@ use \ReflectionClass;
 class Mock
 {
 
-    private $_reflectionClass;
+    protected $_mockedMethods;
 
-    private function __construct($className)
+    protected $_mockedProperties;
+
+    public function __construct($className)
     {
-        $this->_reflectionClass = new ReflectionClass($className);
+        $this->_mockedMethods = (object) [];
+        $this->_mockedProperties = (object) [];
     }
 
-    public static function get($className)
+    public function method($methodName)
     {
-        return new Mock($className);
+        if (!isset($this->_mockedMethods->{$methodName})) {
+            $this->_mockedMethods->{$methodName} = [];
+        }
+
+
     }
 
-    public function mockVariable()
-    {
-
-    }
-
-    public function mockMethod()
+    public function property($propertyName)
     {
 
     }

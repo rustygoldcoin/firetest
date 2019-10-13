@@ -14,11 +14,24 @@
 namespace Fire;
 
 use Fire\Test\TestCase;
+use Fire\Test\Mock;
 
 class TestExceptionTest extends TestCase
 {
     public function testIFail() {
         $this->should('Fail when assert is returned false');
         $this->assert(false);
+
+        $mock = Mock::get('\Fire\TestExceptionTest');
+        $mock
+            ->method('MyMethod')
+            ->calledWith()
+            ->willReturn();
+
+        $mock
+            ->property('_member')
+            ->withValue();
+        var_dump($mock);
+        exit();
     }
 }
