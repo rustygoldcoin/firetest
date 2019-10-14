@@ -17,12 +17,8 @@ if (php_sapi_name() !== 'cli') {
     exit();
 }
 
-require_once __DIR__ . '/../../../autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
-$options = getopt('', ['dir:', 'ext:']);
-$dir = isset($options['dir']) ? $options['dir'] : '/.';
-$fileExt = isset($options['ext']) ? $options['ext'] : '.TestCase.php';
-
-$dir = __DIR__ . '/../../../..' . $dir;
-$suite = new UA1Labs\Fire\Test\Suite($dir, $fileExt);
+$dir = __DIR__ . '/../UA1Labs';
+$suite = new UA1Labs\Fire\Test\Suite($dir, '.TestCase.php');
 $suite->run();

@@ -1,6 +1,10 @@
-# FireTest
+# FireTest - PHP Automated Testing
 
 A Lightweight PHP Testing Framework
+
+## Documentation
+
+https://ua1.us/projects/firetest/
 
 ## Configure The Test Runner
 
@@ -14,16 +18,16 @@ The `runner.php` file is a script meant to bootstrap your test suite together to
 
 Example:
 
-    php vendor/ua1-labs/firetest/scripts/runner.php --dir=src --ext=.test.php
+    php vendor/ua1-labs/firetest/scripts/runner.php --dir=src --ext=.TestCase.php
 
-In the example above, the test suite will search through your `src` directory for all files with the extension `.test.php`.
+In the example above, the test suite will search through your `src` directory for all files with the extension `.TestCase.php`.
 
 **Running as a Composer Run-Script:**
 
 To run FireTest as a composer test script all you need to do is configure the run-script to run the `runner.php` script and point it to the directory you want and the file extension you want it to find. You will find run-script configurations in your `composer.json` file located at the configuration `scripts`.
 
     "scripts": {
-        "test": "php vendor/ua1-labs/firetest/scripts/runner.php --dir=src --ext=.test.php"
+        "test": "php vendor/ua1-labs/firetest/scripts/runner.php --dir=/src --ext=.TestCase.php"
     }
 
 Once you have it configured all you need to do is run the test script using Composer.
@@ -32,11 +36,11 @@ Once you have it configured all you need to do is run the test script using Comp
 
 ## Creating Your First Test
 
-To create your first test, you will need to start out by creating your test file. Your test file will consist of a class you create which will extend the class `Fire\Test\TestCase`.
+To create your first test, you will need to start out by creating your test file. Your test file will consist of a class you create which will extend the class `UA1Labs\Fire\Test\TestCase`.
 
 Example:
 
-    use Fire\Test\TestCase;
+    use UA1Labs\Fire\Test\TestCase;
 
     class MyTestCase extends TestCase
     {
@@ -54,13 +58,13 @@ Example:
 
 ## Asserting
 
-At some point, you will most likely want to assert something with your test method. Because you extended the `Fire\Test\TestCase` class, you have access to two methods called `Fire\Test\TestCase::should($statement)` and `Fire\Test\TestCase::assert($true)`. The `should` method provides you a way to tell us what your assert is going to do. Think of it like "this test should...". The `assert` method evaluates the `$true` parameter to determine a pass or fail. `$true` must evaluate to a `true` boolean value.
+At some point, you will most likely want to assert something with your test method. Because you extended the `Fire\Test\TestCase` class, you have access to two methods called `UA1Labs\Fire\Test\TestCase::should($statement)` and `UA1Labs\Fire\Test\TestCase::assert($true)`. The `should` method provides you a way to tell us what your assert is going to do. Think of it like "this test should...". The `assert` method evaluates the `$true` parameter to determine a pass or fail. `$true` must evaluate to a `true` boolean value.
 
 Example:
 
-    $this
-        ->should('Should be set to true.')
-        ->assert(true);
+    $this->should('Should be set to true.')
+    // do some scaffolding to setup your test
+    $this->assert(true);
 
 ## TestCase API
 

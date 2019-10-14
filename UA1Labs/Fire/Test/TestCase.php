@@ -7,13 +7,12 @@
  * / /_/ / ___ |/ /  / /___/ /_/ / /_/ (__  )
  * `____/_/  |_/_/  /_____/`__,_/_.___/____/
  *
- * @package FireStudio
- * @subpackage FireTest
+ * @package FireTest
  * @author UA1 Labs Developers https://ua1.us
  * @copyright Copyright (c) UA1 Labs
  */
 
-namespace Fire\Test;
+namespace UA1Labs\Fire\Test;
 
 /**
  * This is an abstract class used to create test cases from.
@@ -23,12 +22,14 @@ abstract class TestCase
 
     /**
      * The array of tests that have passed.
+     *
      * @var array
      */
     private $_passed;
 
     /**
      * The array of tests that have failed.
+     *
      * @var array
      */
     private $_failed;
@@ -38,12 +39,14 @@ abstract class TestCase
      * current test's should statement. The user will state
      * what their current test should do using the ::should()
      * method.
+     *
      * @var string
      */
     private $_should;
 
     /**
-     * The Constructor
+     * The class constructor.
+     *
      * @return void
      */
     public function __construct()
@@ -53,6 +56,7 @@ abstract class TestCase
 
     /**
      * A method that is invoked when the when the testcase is first intialized.
+     *
      * @return void
      */
     public function setUp()
@@ -62,6 +66,7 @@ abstract class TestCase
 
     /**
      * A method that is invoked before each test method is invoked.
+     *
      * @return void
      */
     public function beforeEach()
@@ -71,6 +76,7 @@ abstract class TestCase
 
     /**
      * A method that is invoked after each test method is invoked.
+     *
      * @return void
      */
     public function afterEach()
@@ -80,6 +86,7 @@ abstract class TestCase
 
     /**
      * A method that is invoked when the test case is finish running all test methods.
+     *
      * @return void
      */
     public function tearDown()
@@ -89,6 +96,7 @@ abstract class TestCase
 
     /**
      * A method that returns all methods that should be invoked for testing.
+     *
      * @return array
      */
     public function getTestMethods()
@@ -98,6 +106,7 @@ abstract class TestCase
 
     /**
      * Returns the results for the a test that just ran.
+     *
      * @return array
      */
     public function getResults()
@@ -112,8 +121,9 @@ abstract class TestCase
 
     /**
      * Method used to set the current test's should statement.
+     *
      * @param string $statement The statement you want to test against
-     * @return \Fire\Test\TestCase
+     * @return UA1Labs\Fire\Test\TestCase
      */
     protected function should($statement)
     {
@@ -123,8 +133,9 @@ abstract class TestCase
 
     /**
      * Method used to determine if a test passes or failes.
+     *
      * @param boolean $true The statement you want to test
-     * @return Fire\Test\TestCase
+     * @return UA1Labs\Fire\Test\TestCase
      */
     protected function assert($true)
     {
@@ -138,6 +149,7 @@ abstract class TestCase
 
     /**
      * Resets results.
+     *
      * @return void
      */
     public function _resetResults()
@@ -149,6 +161,7 @@ abstract class TestCase
 
     /**
      * Used to filter method names or the ::getTestMethods() method.
+     *
      * @param  string $methodName The method name
      * @return string|null
      */
