@@ -7,16 +7,15 @@
  * / /_/ / ___ |/ /  / /___/ /_/ / /_/ (__  )
  * `____/_/  |_/_/  /_____/`__,_/_.___/____/
  *
- * @package FireStudio
- * @subpackage FireTest
+ * @package FireTest
  * @author UA1 Labs Developers https://ua1.us
  * @copyright Copyright (c) UA1 Labs
  */
 
-namespace Fire\Test;
+namespace UA1Labs\Fire\Test;
 
-use Fire\TestException;
-use Fire\Test\TestCase;
+use UA1Labs\Fire\TestException;
+use UA1Labs\Fire\Test\TestCase;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
@@ -29,46 +28,53 @@ class Suite
 
     /**
      * The directory that the test suite should scan for tests.
+     *
      * @var string
      */
     private $_dir;
 
     /**
      * The file extension the test suite should use to deferentiate tests.
+     *
      * @var string
      */
     private $_fileExt;
 
     /**
      * An array of classes identified to be ran with this suite.
-     * @var array
+     *
+     * @var array<string>
      */
     private $_testClasses;
 
     /**
      * Total of all tests that passed for the suite.
+     *
      * @var integer
      */
     private $_totalPassCount;
 
     /**
      * Total of all tests that have failed for the suite.
+     *
      * @var integer
      */
     private $_totalFailCount;
 
     /**
      * An array of the tests that failed.
-     * @var array
+     *
+     * @var array<string>
      */
     private $_allFailedTests;
 
     /**
-     * The constructor
-     * @param string $dir
-     * @param string $fileExt
+     * The class constructor.
+     *
+     * @param string $dir The directory you would like to run this test suite for
+     * @param string $fileExt The file extendion that will indicate FireTest cases
      */
-    public function __construct($dir, $fileExt = '.test.php')
+    public function __construct($dir, $fileExt = '.TestCase.php')
     {
         if (!is_dir($dir)) {
             $error = 'The directory "' . $dir . '" could not be found.';
@@ -81,13 +87,22 @@ class Suite
         $this->_totalFailCount = 0;
         $this->_allFailedTests = [];
 
+        $this->log('*************************************************************');
+        $this->log('███████╗██╗██████╗ ███████╗████████╗███████╗███████╗████████╗');
+        $this->log('██╔════╝██║██╔══██╗██╔════╝╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝');
+        $this->log('█████╗  ██║██████╔╝█████╗     ██║   █████╗  ███████╗   ██║   ');
+        $this->log('██╔══╝  ██║██╔══██╗██╔══╝     ██║   ██╔══╝  ╚════██║   ██║   ');
+        $this->log('██║     ██║██║  ██║███████╗   ██║   ███████╗███████║   ██║   ');
+        $this->log('╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚══════╝   ╚═╝   ');
+        $this->log('*************************************************************');
         $this->log('[STARTING] Test suite is located at "' . realpath($this->_dir) . '"');
         $this->log('[STARTING] Finding all files with the extension "' . $this->_fileExt . '"');
         $this->_loadTestFiles();
     }
 
     /**
-     * The run logic used to run the suite of testcases and tests.
+     * The run logic used to run the suite of test cases and tests.
+     *
      * @return void
      */
     public function run()
@@ -159,6 +174,7 @@ class Suite
 
     /**
      * Loads tests files from the directory and fileExt configurations.
+     *
      * @return void
      */
     private function _loadTestFiles()
@@ -174,7 +190,7 @@ class Suite
             $declaredAfter = get_declared_classes();
             $loadedClasses = array_diff($declaredAfter, $declaredBefore);
             foreach($loadedClasses as $className) {
-                if (is_subclass_of($className, 'Fire\Test\TestCase')) {
+                if (is_subclass_of($className, 'UA1Labs\Fire\Test\TestCase')) {
                     if (!class_exists($className)) {
                         throw new TestException('Test class "' . $className . '" cannot be found.');
                     }
@@ -191,12 +207,13 @@ class Suite
 
     /**
      * Logs out test that you pass into it.
-     * @param  string $text
+     *
+     * @param  string $text The text you would like to log out.
      * @return void
      */
     public static function log($text)
     {
-        if (php_sapi_name() == "cli") {
+        if (php_sapi_name() === 'cli') {
             echo 'FireTest: ' . $text . "\n";
         } else {
             // Not in cli-mode

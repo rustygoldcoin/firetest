@@ -24,11 +24,13 @@
         "ua1-labs"
     ],
     "type": "library",
-    "scripts": {},
+    "scripts": {
+        "test": "php scripts/test.php"
+    },
     "require": {},
     "autoload": {
         "psr-4": {
-            "Fire\\": "Fire/"
+            "UA1Labs\\": "UA1Labs/"
         }
     }
 }
