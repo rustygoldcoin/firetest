@@ -14,7 +14,7 @@
 
 namespace UA1Labs\Fire;
 
-use Exception;
+use \Exception;
 
 /**
  * Exception thrown from the FireTest library.

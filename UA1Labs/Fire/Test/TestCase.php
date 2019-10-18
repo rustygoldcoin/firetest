@@ -25,14 +25,14 @@ abstract class TestCase
      *
      * @var array
      */
-    private $_passed;
+    private $passed;
 
     /**
      * The array of tests that have failed.
      *
      * @var array
      */
-    private $_failed;
+    private $failed;
 
     /**
      * When runninng tests, this variable will contain the
@@ -42,7 +42,7 @@ abstract class TestCase
      *
      * @var string
      */
-    private $_should;
+    private $should;
 
     /**
      * The class constructor.
@@ -51,7 +51,7 @@ abstract class TestCase
      */
     public function __construct()
     {
-        $this->_resetResults();
+        $this->resetResults();
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class TestCase
      */
     public function getTestMethods()
     {
-        return array_filter(array_map([$this, '_filterTestMethods'], get_class_methods($this)));
+        return array_filter(array_map([$this, 'filterTestMethods'], get_class_methods($this)));
     }
 
     /**
@@ -112,10 +112,10 @@ abstract class TestCase
     public function getResults()
     {
         $results = [
-            'passed' => $this->_passed,
-            'failed' => $this->_failed
+            'passed' => $this->passed,
+            'failed' => $this->failed
         ];
-        $this->_resetResults();
+        $this->resetResults();
         return $results;
     }
 
@@ -127,7 +127,7 @@ abstract class TestCase
      */
     protected function should($statement)
     {
-        $this->_should = $statement;
+        $this->should = $statement;
         return $this;
     }
 
@@ -140,9 +140,9 @@ abstract class TestCase
     protected function assert($true)
     {
         if ($true === true) {
-            $this->_passed[] = $this->_should;
+            $this->passed[] = $this->should;
         } else {
-            $this->_failed[] = $this->_should;
+            $this->failed[] = $this->should;
         }
         return $this;
     }
@@ -152,11 +152,11 @@ abstract class TestCase
      *
      * @return void
      */
-    public function _resetResults()
+    public function resetResults()
     {
-        $this->_should = '';
-        $this->_passed = [];
-        $this->_failed = [];
+        $this->should = '';
+        $this->passed = [];
+        $this->failed = [];
     }
 
     /**
@@ -165,7 +165,7 @@ abstract class TestCase
      * @param  string $methodName The method name
      * @return string|null
      */
-    private function _filterTestMethods($methodName)
+    private function filterTestMethods($methodName)
     {
         return (substr($methodName, 0, 4) === 'test') ? $methodName : null;
     }
