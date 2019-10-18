@@ -14,8 +14,8 @@
 
 namespace Test\UA1Labs\Fire\Test;
 
-use UA1Labs\Fire\Test\TestCase;
-use UA1Labs\Fire\Test\Suite;
+use \UA1Labs\Fire\Test\TestCase;
+use \UA1Labs\Fire\Test\Suite;
 
 class SuiteTestCase extends TestCase
 {
@@ -25,17 +25,17 @@ class SuiteTestCase extends TestCase
      *
      * @var UA1Labs\Fire\Test\Suite
      */
-    private $_suite;
+    private $suite;
 
     public function beforeEach()
     {
-        $this->_suite = new SuiteMock(__DIR__ . '/.', '.TestCase.php');
+        $this->suite = new SuiteMock(__DIR__ . '/.', '.TestCase.php');
     }
 
     public function testConstructor()
     {
         $this->should('Return an instance object of the Suite object without throwing an exception.');
-        $this->assert($this->_suite instanceof Suite);
+        $this->assert($this->suite instanceof Suite);
     }
 
 }

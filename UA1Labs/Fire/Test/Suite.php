@@ -14,11 +14,11 @@
 
 namespace UA1Labs\Fire\Test;
 
-use UA1Labs\Fire\TestException;
-use UA1Labs\Fire\Test\TestCase;
-use RecursiveDirectoryIterator;
-use RecursiveIteratorIterator;
-use RegexIterator;
+use \UA1Labs\Fire\TestException;
+use \UA1Labs\Fire\Test\TestCase;
+use \RecursiveDirectoryIterator;
+use \RecursiveIteratorIterator;
+use \RegexIterator;
 
 /**
  * This class is responsible for running a test suite given.
@@ -31,42 +31,42 @@ class Suite
      *
      * @var string
      */
-    private $_dir;
+    private $dir;
 
     /**
      * The file extension the test suite should use to deferentiate tests.
      *
      * @var string
      */
-    private $_fileExt;
+    private $fileExt;
 
     /**
      * An array of classes identified to be ran with this suite.
      *
      * @var array<string>
      */
-    private $_testClasses;
+    private $testClasses;
 
     /**
      * Total of all tests that passed for the suite.
      *
      * @var integer
      */
-    private $_totalPassCount;
+    private $totalPassCount;
 
     /**
      * Total of all tests that have failed for the suite.
      *
      * @var integer
      */
-    private $_totalFailCount;
+    private $totalFailCount;
 
     /**
      * An array of the tests that failed.
      *
      * @var array<string>
      */
-    private $_allFailedTests;
+    private $allFailedTests;
 
     /**
      * The class constructor.
@@ -80,12 +80,12 @@ class Suite
             $error = 'The directory "' . $dir . '" could not be found.';
             throw new TestException($error);
         }
-        $this->_dir = $dir;
-        $this->_fileExt = $fileExt;
-        $this->_testClasses = [];
-        $this->_totalPassCount = 0;
-        $this->_totalFailCount = 0;
-        $this->_allFailedTests = [];
+        $this->dir = $dir;
+        $this->fileExt = $fileExt;
+        $this->testClasses = [];
+        $this->totalPassCount = 0;
+        $this->totalFailCount = 0;
+        $this->allFailedTests = [];
 
         $this->log('*************************************************************');
         $this->log('███████╗██╗██████╗ ███████╗████████╗███████╗███████╗████████╗');
@@ -95,9 +95,9 @@ class Suite
         $this->log('██║     ██║██║  ██║███████╗   ██║   ███████╗███████║   ██║   ');
         $this->log('╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚══════╝╚══════╝   ╚═╝   ');
         $this->log('*************************************************************');
-        $this->log('[STARTING] Test suite is located at "' . realpath($this->_dir) . '"');
-        $this->log('[STARTING] Finding all files with the extension "' . $this->_fileExt . '"');
-        $this->_loadTestFiles();
+        $this->log('[STARTING] Test suite is located at "' . realpath($this->dir) . '"');
+        $this->log('[STARTING] Finding all files with the extension "' . $this->fileExt . '"');
+        $this->loadTestFiles();
     }
 
     /**
@@ -107,7 +107,7 @@ class Suite
      */
     public function run()
     {
-        foreach($this->_testClasses as $testClass) {
+        foreach($this->testClasses as $testClass) {
             $testClass->setUp();
             $testMethods = $testClass->getTestMethods();
             foreach ($testMethods as $testMethod) {
@@ -119,16 +119,16 @@ class Suite
                 $results = $testClass->getResults();
                 $fails = $results['failed'];
                 $failedCount = count($fails);
-                $this->_totalFailCount += $failedCount;
+                $this->totalFailCount += $failedCount;
                 if ($failedCount > 0) {
                     foreach ($fails as $failed) {
-                        $this->_allFailedTests[] = $failed;
+                        $this->allFailedTests[] = $failed;
                         $this->log('[FAILED] ' . $failed);
                     }
                 }
                 $passes = $results['passed'];
                 $passedCount = count($passes);
-                $this->_totalPassCount += $passedCount;
+                $this->totalPassCount += $passedCount;
                 if ($passedCount > 0) {
                     foreach ($passes as $passed) {
                         $this->log('[PASSED] ' . $passed);
@@ -141,7 +141,7 @@ class Suite
             }
             $testClass->tearDown();
         }
-        if ($this->_totalFailCount > 0) {
+        if ($this->totalFailCount > 0) {
             $this->log('********************************************');
             $this->log('███████╗ █████╗ ██╗██╗     ███████╗██████╗');
             $this->log('██╔════╝██╔══██╗██║██║     ██╔════╝██╔══██╗');
@@ -150,7 +150,7 @@ class Suite
             $this->log('██║     ██║  ██║██║███████╗███████╗██████╔╝');
             $this->log('╚═╝     ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚═════╝');
             $i = 0;
-            foreach ($this->_allFailedTests as $failedTest) {
+            foreach ($this->allFailedTests as $failedTest) {
                 $this->log('[#' . $i . '] ' . $failedTest);
                 $i++;
             }
@@ -165,9 +165,9 @@ class Suite
             $this->log('╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝╚══════╝╚══════╝╚══════╝');
             $this->log('***********************************************************');
         }
-        $this->log('[FINAL] (Passed: '. $this->_totalPassCount . ', Failed: ' . $this->_totalFailCount . ')');
+        $this->log('[FINAL] (Passed: '. $this->totalPassCount . ', Failed: ' . $this->totalFailCount . ')');
 
-        if ($this->_totalFailCount > 0) {
+        if ($this->totalFailCount > 0) {
             exit(1);
         }
     }
@@ -177,11 +177,11 @@ class Suite
      *
      * @return void
      */
-    private function _loadTestFiles()
+    private function loadTestFiles()
     {
-        $rDir = new RecursiveDirectoryIterator($this->_dir);
+        $rDir = new RecursiveDirectoryIterator($this->dir);
         $iDir = new RecursiveIteratorIterator($rDir);
-        $iFiles = new RegexIterator($iDir, '/^.+\\' . $this->_fileExt . '$/', RegexIterator::GET_MATCH);
+        $iFiles = new RegexIterator($iDir, '/^.+\\' . $this->fileExt . '$/', RegexIterator::GET_MATCH);
         foreach($iFiles as $file) {
             $require = $file[0];
             $this->log('[LOADING] Test file "' . realpath($require) . '"');
@@ -199,7 +199,7 @@ class Suite
                         throw new TestException('Test class "' . $className . '" must extend Fire\Test\TestCase.');
                     }
                     $this->log('[LOADING] Test class "' . $className . '"');
-                    $this->_testClasses[] = new $className();
+                    $this->testClasses[] = new $className();
                 }
             }
         }

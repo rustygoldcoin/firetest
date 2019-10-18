@@ -14,7 +14,7 @@
 
 namespace Test\UA1Labs\Fire\Test;
 
-use UA1Labs\Fire\Test\TestCase;
+use \UA1Labs\Fire\Test\TestCase;
 
 class TestCaseTestCase extends TestCase
 {
@@ -24,17 +24,17 @@ class TestCaseTestCase extends TestCase
      *
      * @var UA1Labs\Fire\Test\TestCase
      */
-    private $_testCase;
+    private $testCase;
 
     public function beforeEach()
     {
-        $this->_testCase = new TestCaseMock();
+        $this->testCase = new TestCaseMock();
     }
 
     public function testConstructor()
     {
         $this->should('Return an instance object of the TestCase object without throwing an exception.');
-        $this->assert($this->_testCase instanceof TestCase);
+        $this->assert($this->testCase instanceof TestCase);
     }
 
 }

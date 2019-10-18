@@ -1,4 +1,6 @@
 # Release Changes
+* 2.1.0
+    * Updating code formatting to be PSR-2 compliant
 * 2.0.0
     * Add UA1Labs to namespace
     * Update defaults directory to "/." and default text extension to ".TestCase.php"
