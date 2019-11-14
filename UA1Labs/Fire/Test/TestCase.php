@@ -14,6 +14,10 @@
 
 namespace UA1Labs\Fire\Test;
 
+use \UA1Labs\Fire\TestException;
+use \stdClass;
+use \ReflectionClass;
+
 /**
  * This is an abstract class used to create test cases from.
  */
@@ -117,6 +121,75 @@ abstract class TestCase
         ];
         $this->resetResults();
         return $results;
+    }
+
+    /**
+     * Returns an empty object of $className type you request.
+     *
+     * @param string $className The class you want to mock
+     * @throws \UA1Labs\Fire\TestException If the class doesn't exist
+     * @return object
+     */
+    public function getMockObject($className, $methodReturns = [])
+    {
+        if (!class_exists($className)) {
+            throw new TestException('Unknown class "' . $className . '"');
+        }
+
+        // building override methods for mock class
+        $refMock = new ReflectionClass($className);
+        $methodOverrides = '';
+        $methods = get_class_methods($className);
+        foreach ($methods as $method) {
+            $refMethod = $refMock->getMethod($method);
+            $params = $refMethod->getParameters();
+            $parameters = [];
+            foreach($params as $parameter) {
+                $default = '';
+                if ($parameter->isDefaultValueAvailable()) {
+                    $parameterDefault = $parameter->getDefaultValue();
+                    if (is_array($parameterDefault)) {
+                        $default = ' = []';
+                    } else if (is_null($parameterDefault)) {
+                        $default = ' = null';
+                    } else if (is_number($parameterDefault)) {
+                        $default = ' = ' . $parameterDefault;
+                    } else if (is_string($parameterDefault)) {
+                        $default = ' = "' . $parameterDefault . '"';
+                    }
+                }
+                $parameters[] = '$' . $parameter->name . $default;
+            }
+            if ($refMethod->isPublic() && $method !== '__construct') {
+                $methodOverrides .= 'public function ' . $method . '(' . implode(', ', $parameters) . '){ return null; } ';
+            }
+        }
+
+        // building mock class by extending the requested $className
+        $mockClassName = str_replace(' ', '', ucwords(str_replace(['\\', '_'], ' ', $className)));
+        $mockClassNamespace = 'FireTestMocks';
+        $mockExtendedClass = '\\' . $mockClassNamespace . '\\' . $mockClassName;
+        $mockClass = ''
+            . 'namespace ' . $mockClassNamespace . '; '
+            . 'class ' . $mockClassName . ' extends \\' . $className .' '
+            . '{ ' . $methodOverrides . ' }';
+        eval($mockClass);
+
+        // creating the mock
+        $stdClass = new stdClass();
+        $mock = unserialize(
+            preg_replace(
+                '/^O:\d+:"[^"]++"/',
+                'O:' . strlen($mockExtendedClass) . ':"' . $mockExtendedClass . '"',
+                serialize($stdClass)
+            )
+        );
+
+
+        var_dump($mock->getTestMethods());
+        exit();
+
+        return $mock;
     }
 
     /**
