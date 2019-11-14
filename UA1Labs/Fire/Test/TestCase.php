@@ -17,6 +17,7 @@ namespace UA1Labs\Fire\Test;
 use \UA1Labs\Fire\TestException;
 use \stdClass;
 use \ReflectionClass;
+use \ReflectionObject;
 
 /**
  * This is an abstract class used to create test cases from.
@@ -127,69 +128,110 @@ abstract class TestCase
      * Returns an empty object of $className type you request.
      *
      * @param string $className The class you want to mock
+     * @param array $methodOverrideValues An associative array of override methods mapped to value they should return
      * @throws \UA1Labs\Fire\TestException If the class doesn't exist
+     * @throws \UA1Labs\Fire\TestException If an override method cannot be overridden
      * @return object
      */
-    public function getMockObject($className, $methodReturns = [])
+    public function getMockObject($className, $methodOverrideValues = [])
     {
         if (!class_exists($className)) {
             throw new TestException('Unknown class "' . $className . '"');
         }
 
+        $mockClassName = $this->registerMockClass($className, $methodOverrideValues);
+        $mock = $this->createMockObject($mockClassName);
+        $this->attachFireTestValuesToMockObject($mock, $methodOverrideValues);
+        return $mock;
+    }
+
+    /**
+     * Registers a mock class with the PHP runtime.
+     *
+     * @param string $className The class you would like to register a mock for
+     * @param array $methodOverrideValues An associative array of override methods mapped to value they should return
+     * @throws \UA1Labs\Fire\TestException If an override method cannot be overridden
+     * @return string The className of the mocked class
+     */
+    private function registerMockClass($className, $methodOverrideValues)
+    {
         // building override methods for mock class
         $refMock = new ReflectionClass($className);
         $methodOverrides = '';
-        $methods = get_class_methods($className);
-        foreach ($methods as $method) {
-            $refMethod = $refMock->getMethod($method);
-            $params = $refMethod->getParameters();
-            $parameters = [];
-            foreach($params as $parameter) {
-                $default = '';
-                if ($parameter->isDefaultValueAvailable()) {
-                    $parameterDefault = $parameter->getDefaultValue();
-                    if (is_array($parameterDefault)) {
-                        $default = ' = []';
-                    } else if (is_null($parameterDefault)) {
-                        $default = ' = null';
-                    } else if (is_number($parameterDefault)) {
-                        $default = ' = ' . $parameterDefault;
-                    } else if (is_string($parameterDefault)) {
-                        $default = ' = "' . $parameterDefault . '"';
-                    }
+        foreach ($methodOverrideValues as $method => $value) {
+            if ($refMock->hasMethod($method)) {
+                $refMethod = $refMock->getMethod($method);
+                if (
+                    $refMethod->isPublic()
+                    && !$refMethod->isFinal()
+                    && !$refMethod->isStatic()
+                ) {
+                    $static = $refMethod->isStatic() ? 'static ' : '';
+                    $classFireTestVar = '$this->__firetest->' . $method;
+                    $methodOverrides .= $static . 'public function ' . $method . '(){ return isset(' . $classFireTestVar . ') ? ' . $classFireTestVar . ' : null; } ';
+                } else {
+                    throw new TestException('When mocking "' . $className . '", we cannot override the method "'. $method . '".');
                 }
-                $parameters[] = '$' . $parameter->name . $default;
-            }
-            if ($refMethod->isPublic() && $method !== '__construct') {
-                $methodOverrides .= 'public function ' . $method . '(' . implode(', ', $parameters) . '){ return null; } ';
             }
         }
 
         // building mock class by extending the requested $className
-        $mockClassName = str_replace(' ', '', ucwords(str_replace(['\\', '_'], ' ', $className)));
         $mockClassNamespace = 'FireTestMocks';
-        $mockExtendedClass = '\\' . $mockClassNamespace . '\\' . $mockClassName;
+        $proposedClassName = str_replace(' ', '', ucwords(str_replace(['\\', '_'], ' ', $className)));
+        $mockClassName = $this->getRandomizedClassName($mockClassNamespace, $proposedClassName);
+        $finalClassName = '\\' . $mockClassNamespace . '\\' . $mockClassName;
         $mockClass = ''
             . 'namespace ' . $mockClassNamespace . '; '
             . 'class ' . $mockClassName . ' extends \\' . $className .' '
             . '{ ' . $methodOverrides . ' }';
+
         eval($mockClass);
+        return $finalClassName;
+    }
 
-        // creating the mock
-        $stdClass = new stdClass();
-        $mock = unserialize(
-            preg_replace(
-                '/^O:\d+:"[^"]++"/',
-                'O:' . strlen($mockExtendedClass) . ':"' . $mockExtendedClass . '"',
-                serialize($stdClass)
-            )
-        );
-
-
-        var_dump($mock->getTestMethods());
-        exit();
-
+    /**
+     * Creates a mock object from the classname
+     *
+     * @param string $className The name of the mocked class registered with self::registerMockClass()
+     * @return object The mocked class
+     */
+    private function createMockObject($className)
+    {
+        $refMock = new ReflectionClass($className);
+        $mock = $refMock->newInstanceWithoutConstructor();
         return $mock;
+    }
+
+    /**
+     * Attaches __firetest object for mocked methods.
+     *
+     * @param object $mockObject The mocked object
+     * @param array $methodOverrideValues An associative array of mapped method names with expected return values
+     * @return void
+     */
+    private function attachFireTestValuesToMockObject(&$mockObject, $methodOverrideValues)
+    {
+        $mockObject->__firetest = (object) [];
+        foreach ($methodOverrideValues as $method => $val) {
+            $mockObject->__firetest->{$method} = $val;
+        }
+    }
+
+    /**
+     * Randomizes a clasname based on if it exists already.
+     *
+     * @param string $namespace
+     * @param string $className
+     * @return string
+     */
+    private function getRandomizedClassName($namespace, $className)
+    {
+        $proposedClassName = '\\' . $namespace . '\\' . $className;
+        if (!class_exists($proposedClassName)) {
+            return $className;
+        }
+        $className .= rand(100000, 999999);
+        return $this->getRandomizedClassName($className, $className);
     }
 
     /**

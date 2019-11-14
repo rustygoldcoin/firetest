@@ -66,48 +66,6 @@ Example:
     // do some scaffolding to setup your test
     $this->assert(true);
 
-## TestCase API
-
-When setting up a test case, you have several methods you can use to help you automate your tests.
-
-    /**
-     * A method that is invoked when the when the testcase is first intialized.
-     * @return void
-     */
-    public function setUp()
-
-    /**
-     * A method that is invoked before each test method is invoked.
-     * @return void
-     */
-    public function beforeEach()
-
-    /**
-     * A method that is invoked after each test method is invoked.
-     * @return void
-     */
-    public function afterEach()
-
-    /**
-     * A
-     * @return A method that is invoked when the test case is finish running all test methods.
-     */
-    public function tearDown()
-
-    /**
-     * Method used to set the current test's should statement.
-     * @param  string $shouldStatement The statement you want to test against
-     * @return \Fire\Test\TestCase
-     */
-    protected function should($statement)
-
-    /**
-     * Method used to determine if a test passes or failes.
-     * @param  boolean $trueStatement The statement you want to test
-     * @return Fire\Test\TestCase
-     */
-    protected function assert($true)
-
 ## FireTest Logging
 
 You have the ability to log out information as your tests are running. `Fire\Test\Suite::log()` is a static method you can use to log out information as your test is running.

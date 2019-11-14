@@ -76,6 +76,13 @@ class Suite
      */
     public function __construct($dir, $fileExt = '.TestCase.php')
     {
+        /**
+         * Removing warnings because in this library we are doing things that
+         * break PHP best practices in order to be able to run our code test
+         * code.
+         */
+        error_reporting(E_ALL & ~E_WARNING);
+
         if (!is_dir($dir)) {
             $error = 'The directory "' . $dir . '" could not be found.';
             throw new TestException($error);

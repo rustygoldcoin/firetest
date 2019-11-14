@@ -16,6 +16,7 @@ namespace Test\UA1Labs\Fire\Test;
 
 use \UA1Labs\Fire\Test\TestCase;
 use \UA1Labs\Fire\TestException;
+use \PDO;
 
 class TestCaseTestCase extends TestCase
 {
@@ -29,7 +30,7 @@ class TestCaseTestCase extends TestCase
 
     public function beforeEach()
     {
-        $this->testCase = new TestCaseMock();
+        $this->testCase = $this->getMockObject(TestCaseMock::class);
     }
 
     public function testConstructor()
@@ -48,10 +49,55 @@ class TestCaseTestCase extends TestCase
             $this->assert(true);
         }
 
-        $this->should('Return an empty object of the type we requested.');
-        $mock = $this->testCase->getMockObject(TestCaseMock::class);
-        var_dump($mock);
-        exit();
+        $this->should('Throw an exception if you try to override a protected method.');
+        try {
+            $mock = $this->testCase->getMockObject(TestCaseMock::class, [
+                'myProtectedMethod' => true
+            ]);
+            $this->assert(false);
+        } catch (TestException $e) {
+            $this->assert(true);
+        }
+
+        $this->should('Throw an exception if you try to override a private method.');
+        try {
+            $mock = $this->testCase->getMockObject(TestCaseMock::class, [
+                'myPrivateMethod' => true
+            ]);
+            $this->assert(false);
+        } catch (TestException $e) {
+            $this->assert(true);
+        }
+
+        $this->should('Throw an exception if you try to override a final method.');
+        try {
+            $mock = $this->testCase->getMockObject(TestCaseMock::class, [
+                'myFinalPublicFunction' => true
+            ]);
+            $this->assert(false);
+        } catch (TestException $e) {
+            $this->assert(true);
+        }
+
+        $this->should('Throw an exception if you try to override a static method.');
+        try {
+            $mock = $this->testCase->getMockObject(TestCaseMock::class, [
+                'myStaticPublicMethod' => true
+            ]);
+            $this->assert(false);
+        } catch (TestException $e) {
+            $this->assert(true);
+        }
+
+        $this->should('Successfully return a mock object with an overriden public method.');
+        $mock = $this->testCase->getMockObject(TestCaseMock::class, [
+            'myPublicMethod' => true
+        ]);
+        $this->assert($mock->myPublicMethod());
+
+        $this->should('Return an extended object of the same type.');
+        $mock = $this->testCase->getMockObject(PDO::class);
+        $this->assert($mock instanceof PDO);
     }
 
 }
@@ -61,5 +107,30 @@ class TestCaseTestCase extends TestCase
  */
 class TestCaseMock extends TestCase
 {
+
+    public function myPublicMethod()
+    {
+        return false;
+    }
+
+    static public function myStaticPublicMethod()
+    {
+        return false;
+    }
+
+    protected function myProtectedMethod()
+    {
+        return false;
+    }
+
+    private function myPrivateMethod()
+    {
+        return false;
+    }
+
+    final public function myFinalPublicFunction()
+    {
+        return false;
+    }
 
 }
