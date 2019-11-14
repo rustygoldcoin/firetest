@@ -1,4 +1,7 @@
 # Release Changes
+* 2.2.0
+    * Added capability to mock classes for tests.
+    * Added LICENSE
 * 2.1.0
     * Updating code formatting to be PSR-2 compliant
 * 2.0.0
